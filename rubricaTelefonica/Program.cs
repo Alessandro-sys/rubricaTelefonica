@@ -6,7 +6,8 @@ namespace rubricaTelefonica
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, world");
+            Rubrica rubrica = new Rubrica();
+            rubrica.AggiungiContatto();
         }
     }
 }
