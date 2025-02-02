@@ -19,11 +19,6 @@ namespace rubricaTelefonica
         public string Email { get => this.email; }
 
 
-        
-
-        
-        
-        
         public new void AggiungiContatto()
         {
             SetNomeCognome(1);
@@ -31,7 +26,6 @@ namespace rubricaTelefonica
             AggiungiNumero();
             AggiungiEmail();
         }
-
         
         private void SetNomeCognome(int val)
         {
@@ -47,8 +41,8 @@ namespace rubricaTelefonica
                 nome = Console.ReadLine();
 
             } while (nome == null);
-            if (val == 1) this.nome = nome;
-            else this.cognome = nome;
+            if (val == 1) this.nome = nome.Trim();
+            else this.cognome = nome.Trim();
         }
         private void AggiungiNumero()
         {
@@ -64,7 +58,7 @@ namespace rubricaTelefonica
 
             } while (num == null || num.Length != 10);
             
-            this.numero = num;
+            this.numero = num.Trim();
 
         }
         private void AggiungiEmail()
@@ -73,7 +67,7 @@ namespace rubricaTelefonica
             Console.Write("Inserisci l'e-mail del contatto (premi invio per saltare questo passaggio) ");
             email = Console.ReadLine();
             if (string.IsNullOrEmpty(email)) email = null;
-            this.email = email;
+            this.email = email.Trim();
         }
 
     }
