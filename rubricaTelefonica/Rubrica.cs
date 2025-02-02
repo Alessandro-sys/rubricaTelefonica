@@ -39,12 +39,10 @@ namespace rubricaTelefonica
                     //string path = "C:\\Users\\chiar\\Code\\rubricaTelefonica\\rubricaTelefonica\\rubrica.txt";
                     string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/rubrica.txt";
 
-
                     if (!File.Exists(path))
                     {
                         File.Create(path).Dispose();
                     }
-
                     using (StreamWriter sw = new StreamWriter(path, true))
                     {
                         sw.WriteLine(informazioni);
@@ -56,7 +54,7 @@ namespace rubricaTelefonica
                 }
                 finally
                 {
-                    Console.WriteLine("Ho salvato le informazioni in rubrica");
+                    Console.WriteLine("Dati inseriti correttamente");
                 }
             }
         }
