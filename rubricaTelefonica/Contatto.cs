@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rubricaTelefonica
 {
-    class Contatto: Rubrica
+    class Contatto : Rubrica
     {
         private string nome;
         private string cognome;
@@ -15,9 +15,21 @@ namespace rubricaTelefonica
 
         public string Nome { get => this.nome; }
         public string Cognome { get => this.cognome; }
-        public string Numero {  get => this.numero; }
+        public string Numero { get => this.numero; }
         public string Email { get => this.email; }
 
+
+        public Contatto() { }
+
+        public Contatto(string nome, string cognome, string numero)
+        {
+
+        }
+
+        public Contatto(string nome, string cognome, string numero, string email)
+        {
+
+        }
 
         public new void AggiungiContatto()
         {
@@ -66,8 +78,10 @@ namespace rubricaTelefonica
             string? email;
             Console.Write("Inserisci l'e-mail del contatto (premi invio per saltare questo passaggio) ");
             email = Console.ReadLine();
-            if (string.IsNullOrEmpty(email)) email = null;
-            this.email = email.Trim();
+            if (string.IsNullOrEmpty(email)) this.email = null;
+            else this.email = email.Trim();
+                
+            
         }
 
     }
