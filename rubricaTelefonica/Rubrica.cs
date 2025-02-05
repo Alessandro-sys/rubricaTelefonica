@@ -32,12 +32,11 @@ namespace rubricaTelefonica
             // se ottengo conferma per caricare il file
             if (ans == "y")
             {
-                int id = GetIdAndIncrease();
                 // stringa formattata che contiene le informazioni
-                string informazioni = $"{id};{contatto.Nome};{contatto.Cognome};{contatto.Numero};{contatto.Email}";
+                string informazioni = $"{contatto.Id};{contatto.Nome};{contatto.Cognome};{contatto.Numero};{contatto.Email}";
                 try
                 {
-                    string path = "C:\\Users\\chiar\\Code\\rubricaTelefonica\\rubricaTelefonica\\rubrica.txt";
+                    string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
                     //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/rubrica.txt";
 
                     if (!File.Exists(path))
@@ -62,7 +61,7 @@ namespace rubricaTelefonica
         public virtual void LeggiContatti()
         {
             //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/rubrica.txt";
-            string path = "C:\\Users\\chiar\\Code\\rubricaTelefonica\\rubricaTelefonica\\rubrica.txt";
+            string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
             var contatti = new Dictionary<int, Dictionary<string, string>>();
 
             if (File.Exists(path))
@@ -138,52 +137,6 @@ namespace rubricaTelefonica
         }
 
 
-        private int GetIdAndIncrease()
-        {
-            // path in cui si trova il file che contiene l'ultimo id selezionato
-            string path = "C:\\Users\\chiar\\Code\\rubricaTelefonica\\rubricaTelefonica\\id.txt";
-            //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/id.txt";
-            // stringa che contiene l'ultimo id
-            string line = "0";
-            
-            try
-            {
-                StreamReader sr = new StreamReader(path);
-                // legge l'unica riga e la salva nella variabile line
-                line = sr.ReadLine();
-
-                sr.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-
-            // trasforma quello che trova in int
-            int id = int.Parse(line);
-            int newId = id;
-            // aumenta l'id di 1
-            newId+=1;
-            // salva l'id aumentato di 1 nel file, sovrascrivendolo
-            try
-            {
-                if (!File.Exists(path))
-                {
-                    File.Create(path).Dispose();
-                }
-
-                using (StreamWriter sw = new StreamWriter(path))
-                {
-                    sw.WriteLine(newId);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-            //ritorna l'id
-            return id;
-        }
     }
 
     

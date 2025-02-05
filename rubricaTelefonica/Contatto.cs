@@ -8,11 +8,13 @@ namespace rubricaTelefonica
 {
     class Contatto : Rubrica
     {
+        private int id;
         private string nome;
         private string cognome;
         private string numero;
         private string? email;
 
+        public int Id { get => this.id;  }
         public string Nome { get => this.nome; }
         public string Cognome { get => this.cognome; }
         public string Numero { get => this.numero; }
@@ -33,10 +35,34 @@ namespace rubricaTelefonica
 
         public new void AggiungiContatto()
         {
+            SetID();
             SetNomeCognome(1);
             SetNomeCognome(2);
             AggiungiNumero();
             AggiungiEmail();
+            
+        }
+
+        public void SetID()
+        {
+            // path in cui si trova il file che contiene l'ultimo id selezionato
+            string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
+            //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/id.txt";
+            // stringa che contiene l'ultimo id
+            string line = "0";
+
+            try
+            {
+                line = File.ReadLines(path).Last();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+
+            var valori = line.Split(';');
+            int id = int.Parse(valori[0]);
+            this.id = id + 1;
         }
         
         private void SetNomeCognome(int val)

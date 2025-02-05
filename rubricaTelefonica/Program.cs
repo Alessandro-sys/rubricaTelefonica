@@ -7,7 +7,7 @@ namespace rubricaTelefonica
         static void Main(string[] args)
         {
             Rubrica rubrica = new Rubrica();
-            rubrica.ModificaContatti();
+            rubrica.AggiungiContatto();
         }
     }
 }
