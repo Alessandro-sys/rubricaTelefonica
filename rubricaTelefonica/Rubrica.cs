@@ -99,7 +99,6 @@ namespace rubricaTelefonica
             if (File.Exists(path))
             {
                 string[] lines = File.ReadAllLines(path);
-                
 
                 foreach (string line in lines)
                 {
@@ -108,12 +107,14 @@ namespace rubricaTelefonica
                         var valori = line.Split(";");
                         if (valori.Length >= 4)
                         {
+
                             int id = int.Parse(valori[0]);
                             var contatto = new Dictionary<string, string>
                             {
                                 ["nome"] = valori[1],
                                 ["cognome"] = valori[2],
-                                ["numero"] = valori[3]
+                                ["numero"] = valori[3],
+                                ["email"] = ""
                             };
                             if (valori.Length > 4)
                             {
@@ -126,77 +127,73 @@ namespace rubricaTelefonica
                     }
                 }
 
-
-                
-
                 var selezione = contatti
                     .Where(x => x.Key == idContatto)
                     .Select(x => x.Value)
                     .FirstOrDefault();
 
-                
 
-                
-                //Contatto cDM;
-                //if (String.IsNullOrEmpty(selezione["email"]))
-                //{
-                //    cDM = new Contatto(selezione["nome"], selezione["cognome"], selezione["numero"]);
-                //}
-                //else
-                //{
-                //    cDM = new Contatto(selezione["nome"], selezione["cognome"], selezione["numero"], selezione["email"]);
-                //}
+                // se la selezione non è vuota
+                if (selezione != null)
+                {
+                    // crea oggetto contatto  con nome, cognome, numero, email
+                    Contatto cDM = new Contatto(selezione["nome"], selezione["cognome"], selezione["numero"], selezione["email"]);
 
-                //cDM.ModificaContatto();
+                    // avvia modifica contatto, mi trovo una nuova informazione
+                    cDM.ModificaContatto();
 
-                //Console.WriteLine("Salvare le informazioni? [y,n]");
-                //string ans = Console.ReadLine();
-                //if (ans == "y")
-                //{
-                //    var contatto = new Dictionary<string, string>
-                //    {
-                //        ["nome"] = cDM.Nome,
-                //        ["cognome"] = cDM.Cognome,
-                //        ["numero"] = cDM.Numero,
-                //        ["email"] = String.IsNullOrEmpty(cDM.Email) ? null : cDM.Email
-                //    };
+                    // chiede se vuole salvare le informazioni
+                    Console.WriteLine("Salvare le informazioni? [y,n]");
+                    string ans = Console.ReadLine();
+                    if (ans == "y")
+                    {
+                        // crea il dictionary string string con le informazioni del contatto
+                        var contatto = new Dictionary<string, string>
+                        {
+                            ["nome"] = cDM.Nome,
+                            ["cognome"] = cDM.Cognome,
+                            ["numero"] = cDM.Numero,
+                            ["email"] = String.IsNullOrEmpty(cDM.Email) ? null : cDM.Email
+                        };
 
-                //    contatti[idContatto] = contatto;
+                        // aggiorna il dictionary contatti con le nuove informazioni, mette in posizione dell'id il nuovo contatto
+                        contatti[idContatto] = contatto;
 
-                //    try
-                //    {
-                        
-
-                //        if (!File.Exists(path))
-                //        {
-                //            File.Create(path).Dispose();
-                //        }
-                //        using (StreamWriter sw = new StreamWriter(path))
-                //        {
-                //            foreach(var elemento in contatti)
-                //            {
-                //                string informazioni = $"{elemento.Key};{elemento.Value["nome"]};{elemento.Value["cognome"]},{elemento.Value["numero"]},{elemento.Value["email"]}";
-                //                sw.WriteLine(informazioni);
-                //            }
+                        try
+                        {
+                            // se il file non esiste
+                            if (!File.Exists(path))
+                            {
+                                File.Create(path).Dispose();
+                            }
                             
-                //        }
-                //    }
-                //    catch (Exception e)
-                //    {
-                //        Console.WriteLine("Exception: " + e.Message);
-                //    }
-                //    finally
-                //    {
-                //        Console.WriteLine("Dati inseriti correttamente");
-                //    }
-
-                //}
-
+                            using (StreamWriter sw = new StreamWriter(path))
+                            {
+                                // per ogni elemento nel dictionary contatti
+                                foreach (var elemento in contatti)
+                                { 
+                                    string email = String.IsNullOrEmpty(elemento.Value["email"]) ? "" : elemento.Value["email"];
+                                    string informazioni = $"{elemento.Key};{elemento.Value["nome"]};{elemento.Value["cognome"]};{elemento.Value["numero"]};{email}";
+                                    Console.WriteLine(informazioni);
+                                    sw.WriteLine(informazioni);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Exception: " + e.Message);
+                        }
+                        finally
+                        {
+                            Console.WriteLine("Dati inseriti correttamente");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Contatto non trovato");
+                }
             }
         }
-
-
     }
-
-    
 }

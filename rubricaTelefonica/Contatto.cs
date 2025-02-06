@@ -48,11 +48,10 @@ namespace rubricaTelefonica
             AggiungiEmail();
             
         }
-
         public void ModificaContatto()
         {
             Console.WriteLine("Cosa vuoi modificare?");
-            Console.WriteLine("1. Nome\n2.Cognome\n3.Numero\n4.Email");
+            Console.WriteLine("1. Nome\n2. Cognome\n3. Numero\n4. Email");
 
             int ans = int.Parse(Console.ReadLine());
             
@@ -76,6 +75,7 @@ namespace rubricaTelefonica
             }
 
         }
+
 
         private void SetID()
         {
