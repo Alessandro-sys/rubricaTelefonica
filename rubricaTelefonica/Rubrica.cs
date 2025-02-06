@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
+using Microsoft.VisualBasic;
 
 namespace rubricaTelefonica
 {
@@ -88,15 +90,16 @@ namespace rubricaTelefonica
                 }
             }
         }
-        public virtual void ModificaContatti()
+        public virtual void ModificaContatti(int idContatto)
         {
             //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/rubrica.txt";
-            string path = "C:\\Users\\chiar\\Code\\rubricaTelefonica\\rubricaTelefonica\\rubrica.txt";
+            string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
             var contatti = new Dictionary<int, Dictionary<string, string>>();
-
+            
             if (File.Exists(path))
             {
                 string[] lines = File.ReadAllLines(path);
+                
 
                 foreach (string line in lines)
                 {
@@ -122,17 +125,73 @@ namespace rubricaTelefonica
 
                     }
                 }
-                Console.WriteLine("ID  |  Nome  |  Cognome  |  Numero  |  Email");
-                foreach (var contatto in contatti)
-                {
-                    Console.Write($"{contatto.Key}; ");
-                    foreach (var elemento in contatto.Value)
-                    {
-                        if(!String.IsNullOrEmpty(elemento.Value)) Console.Write($"{elemento.Value}; ");
-                    }
-                    Console.WriteLine();
 
-                }
+
+                
+
+                var selezione = contatti
+                    .Where(x => x.Key == idContatto)
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+
+                
+
+                
+                //Contatto cDM;
+                //if (String.IsNullOrEmpty(selezione["email"]))
+                //{
+                //    cDM = new Contatto(selezione["nome"], selezione["cognome"], selezione["numero"]);
+                //}
+                //else
+                //{
+                //    cDM = new Contatto(selezione["nome"], selezione["cognome"], selezione["numero"], selezione["email"]);
+                //}
+
+                //cDM.ModificaContatto();
+
+                //Console.WriteLine("Salvare le informazioni? [y,n]");
+                //string ans = Console.ReadLine();
+                //if (ans == "y")
+                //{
+                //    var contatto = new Dictionary<string, string>
+                //    {
+                //        ["nome"] = cDM.Nome,
+                //        ["cognome"] = cDM.Cognome,
+                //        ["numero"] = cDM.Numero,
+                //        ["email"] = String.IsNullOrEmpty(cDM.Email) ? null : cDM.Email
+                //    };
+
+                //    contatti[idContatto] = contatto;
+
+                //    try
+                //    {
+                        
+
+                //        if (!File.Exists(path))
+                //        {
+                //            File.Create(path).Dispose();
+                //        }
+                //        using (StreamWriter sw = new StreamWriter(path))
+                //        {
+                //            foreach(var elemento in contatti)
+                //            {
+                //                string informazioni = $"{elemento.Key};{elemento.Value["nome"]};{elemento.Value["cognome"]},{elemento.Value["numero"]},{elemento.Value["email"]}";
+                //                sw.WriteLine(informazioni);
+                //            }
+                            
+                //        }
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        Console.WriteLine("Exception: " + e.Message);
+                //    }
+                //    finally
+                //    {
+                //        Console.WriteLine("Dati inseriti correttamente");
+                //    }
+
+                //}
+
             }
         }
 

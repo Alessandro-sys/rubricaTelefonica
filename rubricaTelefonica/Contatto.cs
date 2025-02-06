@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,12 +26,17 @@ namespace rubricaTelefonica
 
         public Contatto(string nome, string cognome, string numero)
         {
-
+            this.nome = nome;
+            this.cognome = cognome;
+            this.numero = numero;
         }
 
         public Contatto(string nome, string cognome, string numero, string email)
         {
-
+            this.nome = nome;
+            this.cognome = cognome;
+            this.numero = numero;
+            this.email = email;
         }
 
         public new void AggiungiContatto()
@@ -43,7 +49,35 @@ namespace rubricaTelefonica
             
         }
 
-        public void SetID()
+        public void ModificaContatto()
+        {
+            Console.WriteLine("Cosa vuoi modificare?");
+            Console.WriteLine("1. Nome\n2.Cognome\n3.Numero\n4.Email");
+
+            int ans = int.Parse(Console.ReadLine());
+            
+            switch (ans)
+            {
+                case 1:
+                    SetNomeCognome(1);
+                    break;
+                case 2:
+                    SetNomeCognome(2);
+                    break;
+                case 3:
+                    AggiungiNumero();
+                    break;
+                case 4:
+                    AggiungiEmail();
+                    break;
+                default:
+                    Console.WriteLine("Inserisci un'operazione disponibile");
+                    break;
+            }
+
+        }
+
+        private void SetID()
         {
             // path in cui si trova il file che contiene l'ultimo id selezionato
             string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
@@ -64,7 +98,6 @@ namespace rubricaTelefonica
             int id = int.Parse(valori[0]);
             this.id = id + 1;
         }
-        
         private void SetNomeCognome(int val)
         {
             string court = val == 1 ? "nome" : "cognome";
