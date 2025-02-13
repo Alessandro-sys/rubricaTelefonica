@@ -1,4 +1,0 @@
-0;Alessandro;Chiarulli;3923084198;chiarulli14@gmail.com
-1;Luca;Chiarulli;3921728865;chiarulliluca00@gmail.com
-2;Franco;Susmella;1041046969;
-4;Amogus;Susmellus;0805533544;franco.esposito@tim.it

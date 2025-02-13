@@ -93,8 +93,9 @@ namespace rubricaTelefonica
         {
             //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/rubrica.txt";
             string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
-            var contatti = new Dictionary<int, Dictionary<string, string>>();
             
+            var contatti = new List<Contatto>();
+
             if (File.Exists(path))
             {
                 string[] lines = File.ReadAllLines(path);
@@ -104,22 +105,13 @@ namespace rubricaTelefonica
                     if (!string.IsNullOrEmpty(line))
                     {
                         var valori = line.Split(";");
-                        if (valori.Length >= 4)
+                        if (valori.Length == 5)
                         {
-
                             int id = int.Parse(valori[0]);
-                            var contatto = new Dictionary<string, string>
-                            {
-                                ["nome"] = valori[1],
-                                ["cognome"] = valori[2],
-                                ["numero"] = valori[3],
-                                ["email"] = ""
-                            };
-                            if (valori.Length > 4)
-                            {
-                                contatto["email"] = valori[4];
-                            }
-                            contatti[id] = contatto;
+                            string email = String.IsNullOrEmpty(valori[4]) ? "" : valori[4];
+                            Contatto contatto = new Contatto(id, valori[1], valori[2], valori[3], email);
+                            
+                            contatti.Add(contatto);
                         }
 
 
@@ -127,78 +119,59 @@ namespace rubricaTelefonica
                 }
 
                 var selezione = contatti
-                    .Where(x => x.Key == idContatto)
-                    .Select(x => x.Value)
+                    .Where(x => x.Id == idContatto)
+                    .Select(x => x)
                     .FirstOrDefault();
 
 
                 // se la selezione non è vuota
                 if (selezione != null)
-                {
-                    // crea oggetto contatto  con nome, cognome, numero, email
-                    Contatto cDM = new Contatto(selezione["nome"], selezione["cognome"], selezione["numero"], selezione["email"]);
+                { 
+                    string oldName = selezione.Nome;
+                    // avvia modifica contatto con la selezione trovata
+                    selezione.ModificaContatto();
 
-                    // avvia modifica contatto, mi trovo una nuova informazione
-                    cDM.ModificaContatto();
 
-                    // chiede se vuole salvare le informazioni
-                    Console.WriteLine("Salvare le informazioni? [y,n]");
-                    string ans = Console.ReadLine();
-                    if (ans == "y")
+                    Console.WriteLine($"{selezione.Id}, {selezione.Nome}, {selezione.Cognome}, {selezione.Numero}, {selezione.Email}");
+                   
+                    try
                     {
-                        // crea il dictionary string string con le informazioni del contatto
-                        var contatto = new Dictionary<string, string>
+                        // se il file non esiste
+                        if (!File.Exists(path))
                         {
-                            ["nome"] = cDM.Nome,
-                            ["cognome"] = cDM.Cognome,
-                            ["numero"] = cDM.Numero,
-                            ["email"] = String.IsNullOrEmpty(cDM.Email) ? null : cDM.Email
-                        };
-
-                        // aggiorna il dictionary contatti con le nuove informazioni, mette in posizione dell'id il nuovo contatto
-                        contatti[idContatto] = contatto;
-
-                        try
-                        {
-                            // se il file non esiste
-                            if (!File.Exists(path))
-                            {
-                                File.Create(path).Dispose();
-                            }
-                            
-                            using (StreamWriter sw = new StreamWriter(path))
-                            {
-                                // per ogni elemento nel dictionary contatti
-                                foreach (var elemento in contatti)
-                                { 
-                                    string email = String.IsNullOrEmpty(elemento.Value["email"]) ? "" : elemento.Value["email"];
-                                    string informazioni = $"{elemento.Key};{elemento.Value["nome"]};{elemento.Value["cognome"]};{elemento.Value["numero"]};{email}";
-                                    Console.WriteLine(informazioni);
-                                    sw.WriteLine(informazioni);
-                                }
-                            }
+                            File.Create(path).Dispose();
                         }
-                        catch (Exception e)
+
+                        using (StreamWriter sw = new StreamWriter(path))
                         {
-                            Console.WriteLine("Exception: " + e.Message);
-                        }
-                        finally
-                        {
-                            Console.WriteLine("Dati inseriti correttamente");
+                            // per ogni elemento nel dictionary contatti
+                            foreach (var elemento in contatti)
+                            {
+                                string email = String.IsNullOrEmpty(elemento.Email) ? "" : elemento.Email;
+                                string informazioni = $"{elemento.Id};{elemento.Nome};{elemento.Cognome};{elemento.Numero};{email}";
+                                Console.WriteLine(informazioni);
+                                sw.WriteLine(informazioni);
+                            }
                         }
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Exception: " + e.Message);
+                    }
+                    finally
+                    {
+                        Console.WriteLine("Dati inseriti correttamente");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("Contatto non trovato");
-                }
+            
             }
         }
         public virtual void EliminaContatti(int idContatto)
         {
             //string path = "/Users/ale/Desktop/rubricaTelefonica/rubricaTelefonica/rubrica.txt";
             string path = "C:\\CODE\\rubricaTelefonica\\rubrica.txt";
-            var contatti = new Dictionary<int, Dictionary<string, string>>();
+
+            var contatti = new List<Contatto>();
 
             if (File.Exists(path))
             {
@@ -209,22 +182,13 @@ namespace rubricaTelefonica
                     if (!string.IsNullOrEmpty(line))
                     {
                         var valori = line.Split(";");
-                        if (valori.Length >= 4)
+                        if (valori.Length == 5)
                         {
-
                             int id = int.Parse(valori[0]);
-                            var contatto = new Dictionary<string, string>
-                            {
-                                ["nome"] = valori[1],
-                                ["cognome"] = valori[2],
-                                ["numero"] = valori[3],
-                                ["email"] = ""
-                            };
-                            if (valori.Length > 4)
-                            {
-                                contatto["email"] = valori[4];
-                            }
-                            contatti[id] = contatto;
+                            string email = String.IsNullOrEmpty(valori[4]) ? "" : valori[4];
+                            Contatto contatto = new Contatto(id, valori[1], valori[2], valori[3], email);
+
+                            contatti.Add(contatto);
                         }
 
 
@@ -232,17 +196,21 @@ namespace rubricaTelefonica
                 }
 
                 var selezione = contatti
-                    .Where(x => x.Key == idContatto)
-                    .Select(x => x.Value)
+                    .Where(x => x.Id == idContatto)
+                    .Select(x => x)
                     .FirstOrDefault();
 
+
+                // se la selezione non è vuota
                 if (selezione != null)
                 {
+                    
                     Console.WriteLine("Eliminare il contatto? [y,n]");
                     string ans = Console.ReadLine();
                     if (ans == "y")
                     {
-                        contatti.Remove(idContatto);
+                        int indiceContatto = contatti.IndexOf(selezione);
+                        contatti.RemoveAt(indiceContatto);
                         try
                         {
                             if (!File.Exists(path))
@@ -253,9 +221,9 @@ namespace rubricaTelefonica
                             {
                                 foreach (var elemento in contatti)
                                 {
-                                    string email = String.IsNullOrEmpty(elemento.Value["email"]) ? "" : elemento.Value["email"];
-                                    string informazioni = $"{elemento.Key};{elemento.Value["nome"]};{elemento.Value["cognome"]};{elemento.Value["numero"]};{email}";
-                                    //Console.WriteLine(informazioni);
+                                    string email = String.IsNullOrEmpty(elemento.Email) ? "" : elemento.Email;
+                                    string informazioni = $"{elemento.Id};{elemento.Nome};{elemento.Cognome};{elemento.Numero};{email}";
+                                    Console.WriteLine(informazioni);
                                     sw.WriteLine(informazioni);
                                 }
                             }
