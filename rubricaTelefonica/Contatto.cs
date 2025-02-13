@@ -38,6 +38,14 @@ namespace rubricaTelefonica
             this.numero = numero;
             this.email = email;
         }
+        public Contatto(int id, string nome, string cognome, string numero, string email)
+        {
+            this.id = id;
+            this.nome = nome;
+            this.cognome = cognome;
+            this.numero = numero;
+            this.email = email;
+        }
 
         public new void AggiungiContatto()
         {
