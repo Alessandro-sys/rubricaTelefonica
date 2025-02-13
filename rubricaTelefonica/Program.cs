@@ -11,7 +11,7 @@ namespace rubricaTelefonica
             bool flag = true;
             while (flag){
                 Console.WriteLine("Cosa vuoi fare?");
-                Console.WriteLine("1. Aggiungi contatto\n2. Leggi contatti\n3. Modifica contatto\n4. Esci");
+                Console.WriteLine("1. Aggiungi contatto\n2. Leggi contatti\n3. Modifica contatto\n4. Elimina Contatto\n5. Esci");
                 int ans = int.Parse(Console.ReadLine());
                 Console.WriteLine();
                 switch (ans)
@@ -28,6 +28,11 @@ namespace rubricaTelefonica
                         rubrica.ModificaContatti(id);
                         break;
                     case 4:
+                        Console.WriteLine("Inserisci l'id del contatto che vuoi eliminare");
+                        int idElim = int.Parse(Console.ReadLine());
+                        rubrica.EliminaContatti(idElim);
+                        break;
+                    case 5:
                         flag = false;
                         Environment.Exit(0);
                         break;
